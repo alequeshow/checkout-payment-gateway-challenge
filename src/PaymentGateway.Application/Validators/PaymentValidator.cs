@@ -45,7 +45,7 @@ public class PaymentValidator : IPaymentValidator
 
     private static void ValidateCurrencyCodes(ValidationErrors errors, SubmitPaymentRequest request)
     {
-        if (errors.ContainsKey(request.Currency))
+        if (errors.ContainsKey(nameof(request.Currency)))
             return;
 
         if (!ValidCurrencyISOCodes.Contains(request.Currency))

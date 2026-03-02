@@ -16,27 +16,39 @@ public class AcquiringBankProcessor(IHttpClientFactory httpClientFactory) : IPay
     /// <exception cref="PaymentProviderException"></exception>
     public async Task<PaymentProcessResult> ProcessPaymentAsync(SubmitPaymentRequest request)
     {
-        var bankRequest = new BankPaymentRequest(
-            CardNumber: request.CardNumber,
-            ExpiryDate: $"{request.ExpiryMonth:D2}/{request.ExpiryYear}",
-            Currency: request.Currency,
-            Amount: request.Amount,
-            Cvv: request.Cvv
-        );
 
-        var response = await _httpClient.PostAsJsonAsync("/payments", bankRequest);
-
-        if (!response.IsSuccessStatusCode)
-            throw new PaymentProviderException();
-
-        var bankResponse = await response.Content.ReadFromJsonAsync<BankPaymentResponse>() 
-            ?? throw new PaymentProviderException();
-
-        return new PaymentProcessResult
+        try
         {
-            Status = bankResponse!.Authorized ? PaymentStatus.Authorized : PaymentStatus.Declined,
-            AuthorizationCode = bankResponse.AuthorizationCode
-        };
+            var bankRequest = new BankPaymentRequest(
+                CardNumber: request.CardNumber,
+                ExpiryDate: $"{request.ExpiryMonth:D2}/{request.ExpiryYear}",
+                Currency: request.Currency,
+                Amount: request.Amount,
+                Cvv: request.Cvv
+            );
+
+            var response = await _httpClient.PostAsJsonAsync("/payments", bankRequest);
+
+            if (!response.IsSuccessStatusCode)
+                throw new PaymentProviderException();
+
+            var bankResponse = await response.Content.ReadFromJsonAsync<BankPaymentResponse>()
+                ?? throw new PaymentProviderException();
+
+            return new PaymentProcessResult
+            {
+                Status = bankResponse!.Authorized ? PaymentStatus.Authorized : PaymentStatus.Declined,
+                AuthorizationCode = bankResponse.AuthorizationCode
+            };
+        }
+        catch (PaymentProviderException)
+        {
+            throw;
+        }
+        catch (Exception)
+        {
+            throw new PaymentProviderException();
+        }
     }
 
     private record BankPaymentRequest(

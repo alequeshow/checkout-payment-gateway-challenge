@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using PaymentGateway.Application.Extensions;
+﻿using PaymentGateway.Application.Extensions;
 using PaymentGateway.Application.Models;
 using PaymentGateway.Contracts.Requests;
 

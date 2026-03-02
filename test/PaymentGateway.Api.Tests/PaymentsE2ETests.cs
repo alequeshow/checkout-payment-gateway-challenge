@@ -1,8 +1,5 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
-
-using FluentAssertions;
-
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using PaymentGateway.Api.Tests.Fixtures;

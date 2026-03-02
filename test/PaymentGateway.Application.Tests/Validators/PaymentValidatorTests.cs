@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using PaymentGateway.Application.Validators;
+﻿using PaymentGateway.Application.Validators;
 using PaymentGateway.Contracts.Requests;
 
 namespace PaymentGateway.Application.Tests.Validators;
