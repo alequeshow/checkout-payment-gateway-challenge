@@ -12,6 +12,13 @@ public class PaymentValidator : IPaymentValidator
         "USD", "EUR", "GBP"
     };
 
+    /// <inheritdoc/>
+    /// <summary>
+    /// Validates the payment request by checking:
+    /// - Input formats
+    /// - Currency codes
+    /// - Expiry date
+    /// </summary>    
     public ValidationErrors Validate(SubmitPaymentRequest request)
     {
         var errors = new ValidationErrors();

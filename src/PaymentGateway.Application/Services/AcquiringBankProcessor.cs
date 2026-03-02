@@ -11,6 +11,9 @@ public class AcquiringBankProcessor(IHttpClientFactory httpClientFactory) : IPay
 {
     private readonly HttpClient _httpClient = httpClientFactory.CreateClient(nameof(AcquiringBankProcessor));
 
+    /// <inheritdoc/>
+    /// <summary>Connects to the acquiring bank's API to process the payment request.</summary>
+    /// <exception cref="PaymentProviderException"></exception>
     public async Task<PaymentProcessResult> ProcessPaymentAsync(SubmitPaymentRequest request)
     {
         var bankRequest = new BankPaymentRequest(

@@ -13,6 +13,9 @@ public class PaymentService(
     IPaymentValidator paymentValidator,
     ApplicationDbContext dbContext) : IPaymentService
 {
+    /// <inheritdoc />
+    /// <returns>The payment response if found; otherwise throws <see cref="Exceptions.PaymentNotFoundException"/>.</returns>
+    /// <exception cref="PaymentNotFoundException"></exception>
     public async Task<PaymentResponse> GetPaymentByIdAsync(Guid id)
     {
         var result = await dbContext.Payments
@@ -22,6 +25,10 @@ public class PaymentService(
         return result.ToResponse();
     }
 
+    /// <inheritdoc />
+    /// <returns>The payment response if successfully sent to the provider and stored; otherwise throws <see cref="Exceptions.InvalidPaymentException"/>.</returns>
+    /// <exception cref="InvalidPaymentException"></exception>
+    /// <exception cref="PaymentProviderException"></exception>
     public async Task<PaymentResponse> SubmitPaymentAsync(SubmitPaymentRequest request)
     {
         var validationErrors = paymentValidator.Validate(request);
