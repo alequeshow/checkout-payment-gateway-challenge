@@ -1,19 +1,33 @@
-using PaymentGateway.Api.Services;
+using Microsoft.EntityFrameworkCore;
+using PaymentGateway.Application.Data;
+using PaymentGateway.Application.Interfaces;
+using PaymentGateway.Application.Services;
+using PaymentGateway.Application.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseInMemoryDatabase("PaymentGatewayDb"));
+
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IPaymentProcessor, AcquiringBankProcessor>();
+builder.Services.AddScoped<IPaymentValidator, PaymentValidator>();
+
+var acquiringBankBaseUrl = builder.Configuration["AcquiringBank:BaseUrl"];
+
+if(string.IsNullOrEmpty(acquiringBankBaseUrl))
+{
+    throw new InvalidOperationException("AcquiringBank:BaseUrl configuration is missing.");
+}
+
+builder.Services.AddHttpClient(nameof(AcquiringBankProcessor), client => client.BaseAddress = new Uri(acquiringBankBaseUrl));
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<PaymentsRepository>();
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -27,3 +41,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

@@ -1,3 +1,7 @@
+# Instruction for reviewers
+
+This branch contains a resolution of the proposed assessment and some assumptions and insights over the choices during the implemenation is registered in this [/documents/decision_records.md](/documents/decision_records.md)
+
 # Instructions for candidates
 
 This is the .NET version of the Payment Gateway challenge. If you haven't already read this [README.md](https://github.com/cko-recruitment/) on the details of this exercise, please do so now. 
