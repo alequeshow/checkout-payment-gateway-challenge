@@ -62,6 +62,6 @@ public class PaymentsController(IPaymentService paymentService) : Controller
 
         _ => StatusCode(
             StatusCodes.Status500InternalServerError,
-            new ValidationProblemDetails() { Detail = "The application ran through a problem. Please try again later." })
+            new ValidationProblemDetails() { Detail = "The application ran into a problem. Please try again later." })
     };
 }
