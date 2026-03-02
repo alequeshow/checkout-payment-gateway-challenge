@@ -26,7 +26,8 @@ public class AcquiringBankProcessor(IHttpClientFactory httpClientFactory) : IPay
         if (!response.IsSuccessStatusCode)
             throw new PaymentProviderException();
 
-        var bankResponse = await response.Content.ReadFromJsonAsync<BankPaymentResponse>();
+        var bankResponse = await response.Content.ReadFromJsonAsync<BankPaymentResponse>() 
+            ?? throw new PaymentProviderException();
 
         return new PaymentProcessResult
         {

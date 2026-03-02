@@ -30,7 +30,7 @@ public class PaymentsControllerTests
             Id = Guid.NewGuid(),
             Amount = 100,
             Currency = "USD",
-            Status = "Success"
+            Status = "Authorized"
         };
         
         _paymentServiceMock
@@ -118,7 +118,7 @@ public class PaymentsControllerTests
             Id = Guid.NewGuid(),
             Amount = 100,
             Currency = "USD",
-            Status = "Success"
+            Status = "Authorized"
         };
 
         _paymentServiceMock

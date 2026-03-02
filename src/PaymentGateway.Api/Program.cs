@@ -13,10 +13,14 @@ builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IPaymentProcessor, AcquiringBankProcessor>();
 builder.Services.AddScoped<IPaymentValidator, PaymentValidator>();
 
-builder.Services.AddHttpClient(nameof(AcquiringBankProcessor), client =>
+var acquiringBankBaseUrl = builder.Configuration["AcquiringBank:BaseUrl"];
+
+if(string.IsNullOrEmpty(acquiringBankBaseUrl))
 {
-    client.BaseAddress = new Uri(builder.Configuration["AcquiringBank:BaseUrl"]!);
-});
+    throw new InvalidOperationException("AcquiringBank:BaseUrl configuration is missing.");
+}
+
+builder.Services.AddHttpClient(nameof(AcquiringBankProcessor), client => client.BaseAddress = new Uri(acquiringBankBaseUrl));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

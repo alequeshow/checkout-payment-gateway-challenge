@@ -2,5 +2,5 @@
 
 public class PaymentResponse
 {
-    public string Status { get; set; }
+    public required string Status { get; set; }
 }

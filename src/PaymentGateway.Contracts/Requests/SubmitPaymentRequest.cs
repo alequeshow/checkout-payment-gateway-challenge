@@ -10,6 +10,7 @@ public record SubmitPaymentRequest
     [Range(1, 12, ErrorMessage = "Expiry month must be between 1 and 12.")]
     public required int ExpiryMonth { get; init; }
 
+    [Range(1, 9999, ErrorMessage = "Expiry year must be a valid year.")]
     public required int ExpiryYear { get; init; }
 
     [StringLength(3, MinimumLength = 3, ErrorMessage = "Currency must be exactly 3 characters.")]

@@ -56,8 +56,12 @@ public class PaymentsController(IPaymentService paymentService) : Controller
             StatusCodes.Status404NotFound,
             new ValidationProblemDetails() { Detail = notFoundEx.Message }),
 
+        PaymentProviderException providerEx => StatusCode(
+            StatusCodes.Status500InternalServerError,
+            new ValidationProblemDetails() { Detail = providerEx.Message }),
+
         _ => StatusCode(
             StatusCodes.Status500InternalServerError,
-            new ValidationProblemDetails() { Detail = ex.Message })
+            new ValidationProblemDetails() { Detail = "The application ran through a problem. Please try again later." })
     };
 }
